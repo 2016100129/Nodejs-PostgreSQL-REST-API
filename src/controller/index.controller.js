@@ -37,13 +37,23 @@ const getUserById = async (req, res) => {
 const deleteUserById = async (req, res) => {
     const id = req.params.id
     const response = await pool.query('delete from users where id = $1', [id])
-    response.rows.length = 
-    res.send("Usuario eliminado correctamente.")
+    response.rows.length =
+        res.send("Usuario eliminado correctamente.")
+}
+
+const updateUser = async (req, res) => {
+    const { name, email } = req.body
+    const id = req.params.id
+    const response = await pool.query("update users set name = $1, email = $2 where id = $3", [name, email,id])
+    res.json({
+        message:"User "+id +" update succefully"
+    })
 }
 
 module.exports = {
     getUsers,
     createUsers,
     getUserById,
-    deleteUserById
+    deleteUserById,
+    updateUser
 }
